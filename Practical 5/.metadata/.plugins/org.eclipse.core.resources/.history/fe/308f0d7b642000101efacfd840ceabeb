@@ -1,0 +1,76 @@
+import java.io.*;
+import java.sql.*;
+import jakarta.servlet.*;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.*;
+
+@WebServlet("/display")
+public class DisplayBooksServlet extends HttpServlet {
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // Database connection details
+        String url = "jdbc:mysql://localhost:3306/ebookdb"; // Use the correct DB name
+        String user = "root"; // Your MySQL username
+        String password = "@Bdevilliers171806"; // Your MySQL password
+
+        // Query to fetch book data
+        String query = "SELECT * FROM ebookshop"; // Replace with your table name
+
+        // Set response content type to HTML
+        response.setContentType("text/html");
+
+        // Print the header part of the response (the table structure)
+        PrintWriter out = response.getWriter();
+        out.println("<html><head><title>Book Shop</title></head><body>");
+        out.println("<h1>Book Shop</h1>");
+        out.println("<table border='1'>");
+        out.println("<thead><tr><th>Book ID</th><th>Title</th><th>Author</th><th>Price</th><th>Quantity</th></tr></thead>");
+        out.println("<tbody>");
+
+        // Establish MySQL connection and execute query
+        try {
+            // Load JDBC driver
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            // Establish connection
+            Connection conn = DriverManager.getConnection(url, user, password);
+
+            // Create Statement
+            Statement stmt = conn.createStatement();
+
+            // Execute query
+            ResultSet rs = stmt.executeQuery(query);
+
+            // Process the result set and print each row as a table row
+            while (rs.next()) {
+                int bookId = rs.getInt("book_id");
+                String title = rs.getString("book_title");
+                String author = rs.getString("book_author");
+                double price = rs.getDouble("book_price");
+                int quantity = rs.getInt("quantity");
+
+                // Output each book row
+                out.println("<tr>");
+                out.println("<td>" + bookId + "</td>");
+                out.println("<td>" + title + "</td>");
+                out.println("<td>" + author + "</td>");
+                out.println("<td>" + price + "</td>");
+                out.println("<td>" + quantity + "</td>");
+                out.println("</tr>");
+            }
+
+            // Close resources
+            rs.close();
+            stmt.close();
+            conn.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            out.println("<tr><td colspan='5'>Error: " + e.getMessage() + "</td></tr>");
+        }
+
+        // Close the table and body tags
+        out.println("</tbody></table>");
+        out.println("</body></html>");
+    }
+}

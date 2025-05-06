@@ -1,0 +1,61 @@
+package com.example.web;
+
+import com.example.ejb.AccountService;
+import com.example.ejb.InsufficientBalanceException;
+import jakarta.ejb.EJB;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+@WebServlet("/account")
+public class AccountServlet extends HttpServlet {
+
+    @EJB
+    private AccountService accountService;
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) 
+            throws ServletException, IOException {
+        String accountNumber = req.getParameter("accountNumber");
+        String action = req.getParameter("action");
+        String amountParam = req.getParameter("amount");
+
+        try {
+            if (accountNumber == null || accountNumber.isEmpty()) {
+                throw new IllegalArgumentException("Account number is required");
+            }
+            if (action == null || (!"deposit".equals(action) && !"withdraw".equals(action))) {
+                throw new IllegalArgumentException("Invalid transaction type");
+            }
+            if (amountParam == null || amountParam.isEmpty()) {
+                throw new IllegalArgumentException("Amount is required");
+            }
+            
+            double amount = Double.parseDouble(amountParam);
+            
+            if ("deposit".equals(action)) {
+                accountService.deposit(accountNumber, amount);
+            } else {
+                accountService.withdraw(accountNumber, amount);
+            }
+            req.setAttribute("message", "Transaction successful!");
+        } catch (InsufficientBalanceException | IllegalArgumentException e) {
+            req.setAttribute("error", e.getMessage());
+        }
+        req.getRequestDispatcher("/result.jsp").forward(req, resp);
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) 
+            throws ServletException, IOException {
+        String accountNumber = req.getParameter("accountNumber");
+        if (accountNumber != null && !accountNumber.isEmpty()) {
+            double balance = accountService.getBalance(accountNumber);
+            req.setAttribute("balance", balance);
+        }
+        req.getRequestDispatcher("/index.jsp").forward(req, resp);
+    }
+}

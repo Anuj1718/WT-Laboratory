@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ebook Shop</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Welcome to Ebook Shop</h1>
+    <form action="ebooks" method="get">
+        <button type="submit">Show All Books</button>
+    </form>
+</body>
+</html>

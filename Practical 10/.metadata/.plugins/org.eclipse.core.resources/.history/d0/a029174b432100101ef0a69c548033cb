@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Transaction Result</title>
+</head>
+<body>
+    <h1>${not empty message ? message : 'Error'}</h1>
+    <p style="color: red;">${error}</p>
+    <a href="account">Back to Transactions</a>
+</body>
+</html>

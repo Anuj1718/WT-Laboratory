@@ -1,0 +1,5 @@
+@Local
+public interface AccountService {
+    void withdraw(String accountNumber, double amount) throws InsufficientBalanceException; // Optional
+    // Other methods...
+}

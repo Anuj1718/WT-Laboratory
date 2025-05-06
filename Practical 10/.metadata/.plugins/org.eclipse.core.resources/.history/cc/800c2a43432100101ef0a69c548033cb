@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bank Account Transactions</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        /* Your existing CSS styles */
+        body { font-family: Arial, sans-serif; background-color: #f0f2f5; margin: 0; padding: 20px; }
+        .container { max-width: 600px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        h1, h2 { color: #1a73e8; text-align: center; }
+        form { margin: 20px 0; }
+        /* ... other styles ... */
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Bank Account Manager</h1>
+        
+        <!-- Check Balance Form -->
+        <div class="balance-check">
+            <h2>Check Balance</h2>
+            <form action="account" method="get">
+                <div class="form-group">
+                    <label for="accountNumber">Account Number:</label>
+                    <input type="text" id="accountNumber" name="accountNumber" required>
+                </div>
+                <button type="submit">Check Balance</button>
+            </form>
+            <c:if test="${not empty balance}">
+                <p class="balance-info">Current Balance: $${balance}</p>
+            </c:if>
+        </div>
+
+        <!-- Transaction Form (Deposit/Withdraw) -->
+        <div class="transaction-section">
+            <h2>Perform Transaction</h2>
+            <form action="account" method="post">
+                <div class="form-group">
+                    <label for="txAccountNumber">Account Number:</label>
+                    <input type="text" id="txAccountNumber" name="accountNumber" required>
+                </div>
+                <div class="form-group">
+                    <label for="amount">Amount:</label>
+                    <input type="number" id="amount" name="amount" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <button type="submit" name="action" value="deposit">Deposit</button>
+                    <button type="submit" name="action" value="withdraw">Withdraw</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

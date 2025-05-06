@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="employees.xsl"?>
+<!DOCTYPE employees SYSTEM "employees.dtd">
+<employees>
+    <employee>
+        <id>101</id>
+        <name>Anuj Dhole</name>
+        <department>IT</department>
+        <salary>60000</salary>
+    </employee>
+    <employee>
+        <id>102</id>
+        <name>Chinmay Gaikwad</name>
+        <department>HR</department>
+        <salary>55000</salary>
+    </employee>
+    <employee>
+        <id>103</id>
+        <name>Mohan Dinkar</name>
+        <department>Finance</department>
+        <salary>70000</salary>
+    </employee>
+    <!-- <employee>
+        <id>104</id>
+        <name>Jiwan Dhatbale</name>
+        <department>Java</department>
+        <salary>80000</salary>
+    </employee> -->
+</employees>

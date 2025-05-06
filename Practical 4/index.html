@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Calculator</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f4f8;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            width: 350px;
+            background-color: #2c3e50;
+            border-radius: 10px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            padding: 20px;
+            text-align: center;
+            color: #fff;
+        }
+        h2 {
+            margin-bottom: 20px;
+            color: #fff;
+            font-size: 24px;
+        }
+        input {
+            width: 100%;
+            padding: 15px;
+            font-size: 20px;
+            border: 2px solid #34495e;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            background-color: #34495e;
+            color: #fff;
+            text-align: right;
+        }
+        button {
+            width: 70px;
+            height: 50px;
+            font-size: 20px;
+            margin: 5px;
+            cursor: pointer;
+            border-radius: 8px;
+            border: none;
+            background-color: #16a085;
+            color: white;
+        }
+        button.operator {
+            background-color: #f39c12;
+        }
+        button.clear {
+            background-color: #e74c3c;
+        }
+        button:active {
+            background-color: #3e8e41;
+        }
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+        footer {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #bdc3c7;
+        }
+        footer .message {
+            font-size: 16px;
+            color: #f39c12;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Simple Calculator</h2>
+        <input type="text" id="result" placeholder="0" readonly>
+        <div class="buttons">
+            <button onclick="clearScreen()" class="clear">C</button>
+            <button onclick="backspace()">⌫</button>
+            <button onclick="calculateSquare()">x²</button>
+            <button onclick="calculate('%')" class="operator">%</button>
+            <button onclick="display('7')">7</button>
+            <button onclick="display('8')">8</button>
+            <button onclick="display('9')">9</button>
+            <button onclick="calculate('/')">/</button>
+            <button onclick="display('4')">4</button>
+            <button onclick="display('5')">5</button>
+            <button onclick="display('6')">6</button>
+            <button onclick="calculate('*')">*</button>
+            <button onclick="display('1')">1</button>
+            <button onclick="display('2')">2</button>
+            <button onclick="display('3')">3</button>
+            <button onclick="calculate('-')">-</button>
+            <button onclick="display('0')">0</button>
+            <button onclick="display('.')">.</button>
+            <button onclick="calculateResult()" class="operator">=</button>
+            <button onclick="calculate('+')">+</button>
+        </div>
+        <footer>
+            <p>Designed by <strong>Anuj</strong></p>
+            <p class="message">"Life's too short for bad math... and bad coffee!"</p>
+        </footer>
+    </div>
+
+    <script>
+        // Display numbers and operators
+        function display(value) {
+            document.getElementById('result').value += value;
+        }
+
+        // Clear the entire screen
+        function clearScreen() {
+            document.getElementById('result').value = '';
+        }
+
+        // Backspace function
+        function backspace() {
+            let exp = document.getElementById('result').value;
+            document.getElementById('result').value = exp.slice(0, -1);
+        }
+
+        // Calculate Square
+        function calculateSquare() {
+            let num = document.getElementById('result').value;
+            if (validateInput(num)) {
+                document.getElementById('result').value = Math.pow(num, 2);
+            }
+        }
+
+        // Perform Calculation
+        function calculate(operator) {
+            let exp = document.getElementById('result').value;
+            if (validateInput(exp)) {
+                document.getElementById('result').value += operator;
+            }
+        }
+
+        // Calculate Final Result
+        function calculateResult() {
+            let exp = document.getElementById('result').value;
+            try {
+                if (validateInput(exp)) {
+                    document.getElementById('result').value = eval(exp);
+                }
+            } catch (e) {
+                alert("Invalid expression! Please check your input.");
+                clearScreen();
+            }
+        }
+
+        // Input validation for numeric and operator only
+        function validateInput(value) {
+            if (/^[0-9+\-*/.%()]*$/.test(value) || value === "") {
+                return true;
+            } else {
+                alert("Invalid input! Please enter only numbers and valid operators.");
+                clearScreen();
+                return false;
+            }
+        }
+
+        // Handle keyboard input
+        document.addEventListener("keydown", function (event) {
+            let key = event.key;
+            if (!isNaN(key) || ['+', '-', '*', '/', '%', '.'].includes(key)) {
+                display(key);
+            } else if (key === "Enter") {
+                calculateResult();
+            } else if (key === "Backspace") {
+                backspace();
+            } else if (key === "Escape") {
+                clearScreen();
+            } else if (key === "^") {
+                calculateSquare();
+            } else if (key === "=") {
+                calculateResult();
+            }
+        });
+
+        // Prompt for user confirmation
+        window.onload = function () {
+            let confirmAction = confirm("Do you want to use the calculator?");
+            if (!confirmAction) {
+                alert("Redirecting to another page...");
+                window.location.href = "https://www.google.com";
+            } else {
+                alert("Welcome to the Calculator!");
+            }
+        };
+    </script>
+
+</body>
+</html>

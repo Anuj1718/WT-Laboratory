@@ -1,0 +1,31 @@
+package com.example.ejb;
+
+import jakarta.ejb.Stateless;
+import java.util.concurrent.ConcurrentHashMap;
+
+@Stateless
+public class AccountServiceImpl implements AccountService {
+
+    private final ConcurrentHashMap<String, Double> accounts = new ConcurrentHashMap<>();
+
+    @Override
+    public void deposit(String accountNumber, double amount) {
+        if (amount <= 0) throw new IllegalArgumentException("Amount must be positive");
+        accounts.merge(accountNumber, amount, Double::sum);
+    }
+
+    @Override
+    public void withdraw(String accountNumber, double amount) throws InsufficientBalanceException {
+        if (amount <= 0) throw new IllegalArgumentException("Amount must be positive");
+        accounts.compute(accountNumber, (key, balance) -> {
+            double currentBalance = (balance == null) ? 0.0 : balance;
+            if (currentBalance < amount) throw new InsufficientBalanceException("Insufficient balance");
+            return currentBalance - amount;
+        });
+    }
+
+    @Override
+    public double getBalance(String accountNumber) {
+        return accounts.getOrDefault(accountNumber, 0.0);
+    }
+}

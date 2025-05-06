@@ -1,0 +1,7 @@
+package com.example.ejb;
+
+public class InsufficientBalanceException extends RuntimeException { // Extends RuntimeException
+    public InsufficientBalanceException(String message) {
+        super(message);
+    }
+}

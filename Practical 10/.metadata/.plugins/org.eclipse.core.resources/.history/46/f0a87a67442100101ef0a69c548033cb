@@ -1,0 +1,22 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Transaction Result</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f0f2f5; margin: 0; padding: 20px; }
+        .result-container { max-width: 600px; margin: 20px auto; background: white; padding: 20px; border-radius: 8px; text-align: center; }
+        h1 { color: ${not empty error ? '#dc3545' : '#28a745'}; }
+        .back-link { color: #1a73e8; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <div class="result-container">
+        <h1>${not empty message ? message : 'Transaction Failed'}</h1>
+        <c:if test="${not empty error}">
+            <p style="color: #dc3545;">Error: ${error}</p>
+        </c:if>
+        <a href="account" class="back-link">Back to Transactions</a>
+    </div>
+</body>
+</html>

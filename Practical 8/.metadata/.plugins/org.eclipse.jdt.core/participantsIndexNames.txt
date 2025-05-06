@@ -1,0 +1,3 @@
+INDEX VERSION 1.134
+C:\Users\Anuj\Desktop\WTL\Anuj\Practical 8\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\495357507.index
+\LoginStruts\src\main\java

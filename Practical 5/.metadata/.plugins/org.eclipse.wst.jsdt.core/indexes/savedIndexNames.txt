@@ -1,0 +1,7 @@
+INDEX VERSION 1.4+C:\Users\Anuj\Desktop\WTL\Anuj\Practical 5\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
+2939510372.index
+1900818268.index
+30086241.index
+881494588.index
+561539544.index
+1418189.index

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ebook List</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Ebook List</h1>
+    <table id="ebookTable">
+        <thead>
+            <tr>
+                <th>Book ID</th>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Price</th>
+                <th>Quantity</th>
+            </tr>
+        </thead>
+        <tbody id="bookData">
+            <!-- Book data will be dynamically inserted here -->
+        </tbody>
+    </table>
+</body>
+</html>

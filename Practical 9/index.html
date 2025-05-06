@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html ng-app="anujApp">
+<head>
+  <meta charset="UTF-8">
+  <title>Welcome to Portal 🚪</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  <script src="app.js"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div ng-controller="MainController">
+    <h1>Hey there! Welcome to Code Club 💻</h1>
+
+    <div ng-show="showRegister">
+      <h2>Register (Become part of the cool crew 😎)</h2>
+      <form ng-submit="register()">
+        <input type="text" ng-model="user.firstName" placeholder="First Name" required><br>
+        <input type="text" ng-model="user.lastName" placeholder="Last Name" required><br>
+        <input type="text" ng-model="user.username" placeholder="Username" required><br>
+        <input type="password" ng-model="user.password" placeholder="Password" required><br>
+        <button type="submit">Sign Up 🚀</button>
+      </form>
+      <p>Already a member of the Army? <a href="#" ng-click="toggle()">Login here</a></p>
+    </div>
+
+    <div ng-show="!showRegister">
+      <h2>Login (No password hints like "1234" please 😅)</h2>
+      <form ng-submit="login()">
+        <input type="text" ng-model="loginData.username" placeholder="Username" required><br>
+        <input type="password" ng-model="loginData.password" placeholder="Password" required><br>
+        <button type="submit">Login ✅</button>
+      </form>
+      <p>New here? <a href="#" ng-click="toggle()">Register instead</a></p>
+    </div>
+
+    <p style="margin-top: 20px;">{{message}}</p>
+  </div>
+
+</body>
+</html>

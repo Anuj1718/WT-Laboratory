@@ -1,0 +1,65 @@
+package com.una.ebook;
+
+import java.io.*;
+import java.sql.*;
+import javax.servlet.*;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.*;
+
+@WebServlet("/display")
+public class DisplayBooksServlet extends HttpServlet {
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException {
+
+        response.setContentType("text/html");
+        PrintWriter out = response.getWriter();
+
+        // Database connection
+        String url = "jdbc:mysql://localhost:3306/ebookdb";
+        String user = "root";
+        String password = "@Bdevilliers171806";
+
+        String query = "SELECT * FROM ebookshop";
+
+        out.println("<html><head><title>Book Shop</title></head>");
+        out.println("<body style='font-family: Arial, sans-serif; background-color: #f4f4f4;'>");
+        out.println("<div style='width: 80%; margin: 50px auto; padding: 20px; background-color: white; box-shadow: 0 4px 8px rgba(0,0,0,0.1);'>");
+        out.println("<h1 style='text-align: center; color: #333;'>Book Shop</h1>");
+        out.println("<table style='width: 100%; border-collapse: collapse; margin-top: 20px;'>");
+        out.println("<tr style='background-color: #f2f2f2;'>");
+        out.println("<th style='padding: 10px; border: 1px solid #ddd;'>Book ID</th>");
+        out.println("<th style='padding: 10px; border: 1px solid #ddd;'>Title</th>");
+        out.println("<th style='padding: 10px; border: 1px solid #ddd;'>Author</th>");
+        out.println("<th style='padding: 10px; border: 1px solid #ddd;'>Price</th>");
+        out.println("<th style='padding: 10px; border: 1px solid #ddd;'>Quantity</th>");
+        out.println("</tr>");
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection conn = DriverManager.getConnection(url, user, password);
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+
+            while (rs.next()) {
+                out.println("<tr style='background-color: #f9f9f9;'>");
+                out.println("<td style='padding: 10px; border: 1px solid #ddd;'>" + rs.getInt("book_id") + "</td>");
+                out.println("<td style='padding: 10px; border: 1px solid #ddd;'>" + rs.getString("book_title") + "</td>");
+                out.println("<td style='padding: 10px; border: 1px solid #ddd;'>" + rs.getString("book_author") + "</td>");
+                out.println("<td style='padding: 10px; border: 1px solid #ddd;'>" + rs.getDouble("book_price") + "</td>");
+                out.println("<td style='padding: 10px; border: 1px solid #ddd;'>" + rs.getInt("quantity") + "</td>");
+                out.println("</tr>");
+            }
+
+            rs.close();
+            stmt.close();
+            conn.close();
+
+        } catch (Exception e) {
+            out.println("<tr><td colspan='5'>Error: " + e.getMessage() + "</td></tr>");
+        }
+
+        out.println("</table>");
+        out.println("</div></body></html>");
+    }
+}

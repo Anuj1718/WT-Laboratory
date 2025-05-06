@@ -1,0 +1,59 @@
+import jakarta.servlet.*;
+import jakarta.servlet.http.*;
+import java.io.*;
+import java.sql.*;
+
+public class DisplayBooksServlet extends HttpServlet {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // Set response content type
+        response.setContentType("text/html");
+        
+        // Database connection variables
+        String url = "jdbc:mysql://localhost:3306/ebookshop";
+        String username = "root";
+        String password = "yourpassword";  // Replace with your MySQL password
+
+        // Print the HTML page structure
+        PrintWriter out = response.getWriter();
+        out.println("<html><body>");
+        out.println("<h1>Ebook List</h1>");
+        out.println("<table border='1'>");
+        out.println("<tr><th>Book ID</th><th>Title</th><th>Author</th><th>Price</th><th>Quantity</th></tr>");
+
+        // Fetch data from the database and display
+        try {
+            // Establish connection
+            Connection connection = DriverManager.getConnection(url, username, password);
+            Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM ebookshop");
+
+            // Iterate over the result set and print rows
+            while (rs.next()) {
+                int bookId = rs.getInt("book_id");
+                String title = rs.getString("book_title");
+                String author = rs.getString("book_author");
+                double price = rs.getDouble("book_price");
+                int quantity = rs.getInt("quantity");
+
+                out.println("<tr>");
+                out.println("<td>" + bookId + "</td>");
+                out.println("<td>" + title + "</td>");
+                out.println("<td>" + author + "</td>");
+                out.println("<td>" + price + "</td>");
+                out.println("<td>" + quantity + "</td>");
+                out.println("</tr>");
+            }
+
+            // Close connections
+            rs.close();
+            stmt.close();
+            connection.close();
+        } catch (SQLException e) {
+            out.println("<tr><td colspan='5'>Error connecting to the database.</td></tr>");
+            e.printStackTrace();
+        }
+
+        out.println("</table>");
+        out.println("</body></html>");
+    }
+}

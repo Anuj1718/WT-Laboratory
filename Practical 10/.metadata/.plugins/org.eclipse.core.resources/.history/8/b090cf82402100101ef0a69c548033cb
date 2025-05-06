@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bank Account Transactions</title>
+</head>
+<body>
+    <h1>Account Balance Check</h1>
+    <form action="account" method="get">
+        Account Number: <input type="text" name="accountNumber" required>
+        <button type="submit">Check Balance</button>
+    </form>
+    <c:if test="${not empty balance}">
+        <p>Current Balance: $${balance}</p>
+    </c:if>
+
+    <h2>Perform Transaction</h2>
+    <form action="account" method="post">
+        Account Number: <input type="text" name="accountNumber" required><br>
+        Amount: <input type="number" name="amount" step="0.01" required><br>
+        <button type="submit" name="action" value="deposit">Deposit</button>
+        <button type="submit" name="action" value="withdraw">Withdraw</button>
+    </form>
+</body>
+</html>
